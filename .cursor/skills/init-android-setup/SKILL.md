@@ -1,0 +1,127 @@
+---
+name: init-android-setup
+description: Initializes flash-list for Android development on macOS—Node 22, Yarn Classic, ANDROID_HOME, JDK 17, SDK packages, emulator, Gradle, Metro, and run-android. Use when setting up the repo, onboarding, init-android-setup, Android emulator, Gradle, adb, or first-time Android dev environment.
+disable-model-invocation: true
+---
+
+# Init Android Setup
+
+One-time and daily workflows for flash-list Android development on macOS. Fork context: `fieldsphere/flash-list-mobile` (from Shopify/flash-list); git remote name `fieldsphere`.
+
+Fixture: React Native **0.84.1**, package **`com.flatlistpro`**, Detox AVD **`React-Native-Phone`** (see `fixture/react-native/.detoxrc.js`).
+
+## Prerequisites checklist
+
+- [ ] macOS with enough disk for SDK + emulator (several GB)
+- [ ] nvm (or equivalent) for Node **22.18.0**
+- [ ] **Yarn Classic 1.22.x** (lockfile v1; disable Corepack if it hijacks `yarn` to v4)
+- [ ] **JDK 17** for Gradle (not JDK 25 — breaks Gradle 9 / RN toolchain)
+- [ ] Android SDK + platform-tools + emulator
+
+## Version fixes (common blockers)
+
+| Problem | Fix |
+|---------|-----|
+| Node 24 + Yarn 4 / Corepack | `nvm use 22.18.0`, `npm install -g yarn@1.22.22`, `corepack disable` if `yarn` still resolves to 4.x |
+| `ANDROID_HOME` unset / no `adb` | Set `ANDROID_HOME` (Homebrew SDK root below) and extend `PATH` |
+| Gradle: `JvmVendorSpec IBM_SEMERU` / JDK 25 | `export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"` (`brew install openjdk@17`) |
+| CMake fails on **x86** on Apple Silicon | Use `npx react-native run-android --active-arch-only` (builds **arm64-v8a** for the arm64 emulator) |
+| Parallel Gradle daemons / flaky native builds | `./gradlew --stop` then rebuild; prefer `--active-arch-only` on M-series Macs |
+| Port 8081 in use | Check before starting Metro; reuse existing Metro or stop the other process |
+
+### Environment (Homebrew SDK — verified on this fork)
+
+```bash
+export ANDROID_HOME="/opt/homebrew/share/android-commandlinetools"
+export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
+export PATH="$JAVA_HOME/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:/opt/homebrew/bin:$PATH"
+```
+
+Install SDK stack (if missing):
+
+```bash
+brew install --cask android-commandlinetools android-platform-tools
+brew install openjdk@17
+yes | sdkmanager --licenses
+sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006" "emulator"
+sdkmanager "system-images;android-36;google_apis;arm64-v8a"
+echo no | avdmanager create avd -n "React-Native-Phone" -k "system-images;android-36;google_apis;arm64-v8a" -d "pixel_6"
+```
+
+Repo Android pins (from `fixture/react-native/android/build.gradle`): **compileSdk / targetSdk 36**, **build-tools 36.0.0**, **NDK 27.1.12297006**, **minSdk 24**, **Gradle 9.0.0**, **Kotlin 2.1.20**, **newArchEnabled=true**.
+
+Alternative: Android Studio installs SDK under `~/Library/Android/sdk` — set `ANDROID_HOME` to that path instead.
+
+## One-time init (repo root)
+
+Copy and track progress:
+
+```
+Init Progress:
+- [ ] Node 22.18.0 active
+- [ ] Yarn Classic 1.22.x global (Corepack off if needed)
+- [ ] ANDROID_HOME + JDK 17 in shell
+- [ ] SDK packages + licenses + React-Native-Phone AVD
+- [ ] yarn up (or yarn + fixture deps)
+```
+
+Commands:
+
+```bash
+nvm install 22.18.0 && nvm use 22.18.0
+npm install -g yarn@1.22.22
+# export ANDROID_HOME, JAVA_HOME, PATH (see above)
+yarn up
+```
+
+`yarn up` runs root `yarn`, fixture deps + **iOS** `pod install`, Detox `applesimutils`, `yarn build`. It does **not** install the Android SDK — do that separately.
+
+## Daily dev workflow
+
+```
+Daily Progress:
+- [ ] Terminal 1: yarn build --watch
+- [ ] Terminal 2: Metro in fixture
+- [ ] Emulator running (or USB device)
+- [ ] Terminal 3: run Android app
+```
+
+| Terminal | Command |
+|----------|---------|
+| 1 | `yarn build --watch` |
+| 2 | `cd fixture/react-native && yarn start` (Metro on 8081) |
+| 3 | `cd fixture/react-native && npx react-native run-android --no-packager --active-arch-only` |
+
+From repo root (starts Metro via chained script — prefer separate Metro terminal):
+
+```bash
+yarn ra   # alias: yarn fixture:rn:android
+```
+
+Start emulator (if not already running):
+
+```bash
+emulator -avd React-Native-Phone -no-snapshot-load
+adb wait-for-device
+adb shell getprop sys.boot_completed   # expect 1
+```
+
+**Do NOT use root `yarn start`** — `react-native` CLI is not resolved from the fixture's `node_modules` at the monorepo root. Use `cd fixture/react-native && yarn start`.
+
+## Pitfalls
+
+- `dist/` is **not** rebuilt on branch switch — run `yarn build` after checkout
+- Fixture consumes compiled `dist/` — TS changes need build/watch
+- **No `estimatedItemSize`** on FlashList (prop does not exist in this codebase)
+- First native build can take several minutes; use JDK 17 and `--active-arch-only` on Apple Silicon
+- Do not commit `Podfile.lock` or local Gradle/SDK artifacts unless intentional
+- `brew install --cask temurin@17` may require sudo; **`brew install openjdk@17`** is sufficient for Gradle
+
+## Optional ~/.zshrc
+
+```bash
+export ANDROID_HOME="/opt/homebrew/share/android-commandlinetools"
+export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"
+export PATH="$JAVA_HOME/bin:$ANDROID_HOME/emulator:$ANDROID_HOME/platform-tools:$ANDROID_HOME/cmdline-tools/latest/bin:$PATH"
+# in repo: nvm use 22.18.0
+```
