@@ -25,9 +25,12 @@ Fixture: React Native **0.84.1**, package **`com.flatlistpro`**, Detox AVD **`Re
 | Node 24 + Yarn 4 / Corepack | `nvm use 22.18.0`, `npm install -g yarn@1.22.22`, `corepack disable` if `yarn` still resolves to 4.x |
 | `ANDROID_HOME` unset / no `adb` | Set `ANDROID_HOME` (Homebrew SDK root below) and extend `PATH` |
 | Gradle: `JvmVendorSpec IBM_SEMERU` / JDK 25 | `export JAVA_HOME="/opt/homebrew/opt/openjdk@17/libexec/openjdk.jdk/Contents/Home"` (`brew install openjdk@17`) |
-| CMake fails on **x86** on Apple Silicon | Use `npx react-native run-android --active-arch-only` (builds **arm64-v8a** for the arm64 emulator) |
+| CMake fails / missing `cmake;3.22.1` | `sdkmanager "cmake;3.22.1"` (required by Reanimated/worklets native build) |
+| CMake fails on **x86** on Apple Silicon | `npx react-native run-android --active-arch-only` (builds **arm64-v8a** for the arm64 emulator) |
+| `Build Tools revision 35.0.0 is corrupted` | Remove `$ANDROID_HOME/build-tools/35.0.0` and any `*-2` duplicate dirs, then `sdkmanager "build-tools;35.0.0"` |
+| `error: more than one device/emulator` | `adb devices`, then `run-android --deviceId emulator-5554` (or stop extra emulators) |
 | Parallel Gradle daemons / flaky native builds | `./gradlew --stop` then rebuild; prefer `--active-arch-only` on M-series Macs |
-| Port 8081 in use | Check before starting Metro; reuse existing Metro or stop the other process |
+| Port 8081 in use | Check `lsof -ti:8081` before Metro; reuse existing Metro or stop the other process |
 
 ### Environment (Homebrew SDK — verified on this fork)
 
@@ -43,9 +46,10 @@ Install SDK stack (if missing):
 brew install --cask android-commandlinetools android-platform-tools
 brew install openjdk@17
 yes | sdkmanager --licenses
-sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0" "ndk;27.1.12297006" "emulator"
-sdkmanager "system-images;android-36;google_apis;arm64-v8a"
-echo no | avdmanager create avd -n "React-Native-Phone" -k "system-images;android-36;google_apis;arm64-v8a" -d "pixel_6"
+sdkmanager "platform-tools" "platforms;android-36" "build-tools;36.0.0" "build-tools;35.0.0" \
+  "ndk;27.1.12297006" "cmake;3.22.1" "emulator"
+sdkmanager "system-images;android-35;google_apis;arm64-v8a"
+echo no | avdmanager create avd -n "React-Native-Phone" -k "system-images;android-35;google_apis;arm64-v8a" -d "pixel_6"
 ```
 
 Repo Android pins (from `fixture/react-native/android/build.gradle`): **compileSdk / targetSdk 36**, **build-tools 36.0.0**, **NDK 27.1.12297006**, **minSdk 24**, **Gradle 9.0.0**, **Kotlin 2.1.20**, **newArchEnabled=true**.
@@ -90,13 +94,15 @@ Daily Progress:
 |----------|---------|
 | 1 | `yarn build --watch` |
 | 2 | `cd fixture/react-native && yarn start` (Metro on 8081) |
-| 3 | `cd fixture/react-native && npx react-native run-android --no-packager --active-arch-only` |
+| 3 | `cd fixture/react-native && yarn react-native run-android --no-packager --active-arch-only` (add `--deviceId emulator-5554` if multiple devices) |
 
-From repo root (starts Metro via chained script — prefer separate Metro terminal):
+From repo root (chains `run-android` then `build --watch` — prefer separate Metro + `build --watch` terminals):
 
 ```bash
 yarn ra   # alias: yarn fixture:rn:android
 ```
+
+CONTRIBUTING mentions `yarn run-android`; the root script is **`yarn ra`** (not `run-android`).
 
 Start emulator (if not already running):
 
