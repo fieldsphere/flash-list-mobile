@@ -67,6 +67,7 @@ Init Progress:
 - [ ] ANDROID_HOME + JDK 17 in shell
 - [ ] SDK packages + licenses + React-Native-Phone AVD
 - [ ] yarn up (or yarn + fixture deps)
+- [ ] agent-device CLI (`npm install -g agent-device@latest`)
 ```
 
 Commands:
@@ -116,6 +117,7 @@ adb shell getprop sys.boot_completed   # expect 1
 
 ## Pitfalls
 
+- Emulator UI validation for agents uses **agent-device** via `.cursor/skills/android-emulator/` — install globally with `npm install -g agent-device@latest`; when multiple devices are connected, set `ANDROID_SERIAL` (see `adb devices`) before snapshot/screenshot/log commands
 - `dist/` is **not** rebuilt on branch switch — run `yarn build` after checkout
 - Fixture consumes compiled `dist/` — TS changes need build/watch
 - **No `estimatedItemSize`** on FlashList (prop does not exist in this codebase)
