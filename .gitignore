@@ -198,3 +198,5 @@ dist
 **/.DS_Store
 
 website/.tweet-cache
+
+.tmp/agent-device/
