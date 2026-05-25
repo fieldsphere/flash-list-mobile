@@ -1,10 +1,10 @@
 ---
-name: init-android-setup
-description: Initializes flash-list for Android development on macOS—Node 22, Yarn Classic, ANDROID_HOME, JDK 17, SDK packages, emulator, Gradle, Metro, and run-android. Use when setting up the repo, onboarding, init-android-setup, Android emulator, Gradle, adb, or first-time Android dev environment.
+name: init-android
+description: Initializes flash-list for Android development on macOS—Node 22, Yarn Classic, ANDROID_HOME, JDK 17, SDK packages, emulator, Gradle, Metro, and run-android. Use when setting up the repo, onboarding, init Android, Android emulator, Gradle, adb, or /init-android.
 disable-model-invocation: true
 ---
 
-# Init Android Setup
+# Init Android
 
 One-time and daily workflows for flash-list Android development on macOS. Fork context: `fieldsphere/flash-list-mobile` (from Shopify/flash-list); git remote name `fieldsphere`.
 
