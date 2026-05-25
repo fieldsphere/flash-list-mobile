@@ -10,6 +10,26 @@ One-time and daily workflows for flash-list Android development on macOS. Fork c
 
 Fixture: React Native **0.84.1**, package **`com.flatlistpro`**, Detox AVD **`React-Native-Phone`** (see `fixture/react-native/.detoxrc.js`).
 
+## /init-android workflow (agents)
+
+When the user invokes `/init-android`, **always** perform a clean slate before checking daily readiness or starting Metro:
+
+1. Export `ANDROID_HOME`, `JAVA_HOME`, and `PATH` (see Environment below).
+2. Run `nvm use 22.18.0` and verify Yarn / SDK prerequisites.
+3. Run the clean-slate script (stops Metro on 8081, Gradle daemons, all running emulators, then boots a **fresh** `React-Native-Phone` instance with `-no-snapshot-load`).
+4. Continue with one-time init items that are still missing, then report daily terminal commands.
+
+Do **not** skip the clean slate because an emulator is already connected — `/init-android` means a brand-new emulator session.
+
+```bash
+# after ANDROID_HOME + PATH are set
+.cursor/skills/init-android/scripts/clean-slate-and-boot-emulator.sh
+```
+
+The script keeps the emulator process attached after boot. Run it in a dedicated long-running terminal (or background shell) and leave that terminal running for the emulator lifetime. Use `DETACH_EMULATOR=1` only for manual local terminal use where process cleanup is not an issue.
+
+Override the AVD name if needed: `AVD_NAME=FlashList35 .cursor/skills/init-android/scripts/clean-slate-and-boot-emulator.sh`
+
 ## Prerequisites checklist
 
 - [ ] macOS with enough disk for SDK + emulator (several GB)
@@ -30,7 +50,8 @@ Fixture: React Native **0.84.1**, package **`com.flatlistpro`**, Detox AVD **`Re
 | `Build Tools revision 35.0.0 is corrupted` | Remove `$ANDROID_HOME/build-tools/35.0.0` and any `*-2` duplicate dirs, then `sdkmanager "build-tools;35.0.0"` |
 | `error: more than one device/emulator` | `adb devices`, then `run-android --deviceId emulator-5554` (or stop extra emulators) |
 | Parallel Gradle daemons / flaky native builds | `./gradlew --stop` then rebuild; prefer `--active-arch-only` on M-series Macs |
-| Port 8081 in use | Check `lsof -ti:8081` before Metro; reuse existing Metro or stop the other process |
+| Port 8081 in use | `/init-android` kills Metro on 8081 during clean slate; otherwise check `lsof -ti:8081` before starting Metro |
+| Stale emulator / wrong device state | Run `clean-slate-and-boot-emulator.sh` (included in `/init-android`) |
 
 ### Environment (Homebrew SDK — verified on this fork)
 
@@ -74,20 +95,24 @@ Commands:
 
 ```bash
 nvm install 22.18.0 && nvm use 22.18.0
-npm install -g yarn@1.22.22
+npm install -g yarn@1.22.22 agent-device@latest
 # export ANDROID_HOME, JAVA_HOME, PATH (see above)
 yarn up
+# /init-android: always run after env exports
+.cursor/skills/init-android/scripts/clean-slate-and-boot-emulator.sh
 ```
 
 `yarn up` runs root `yarn`, fixture deps + **iOS** `pod install`, Detox `applesimutils`, `yarn build`. It does **not** install the Android SDK — do that separately.
 
 ## Daily dev workflow
 
+For normal daily startup after one-time setup, prefer [start-android-emulator](../start-android-emulator/SKILL.md). Keep the commands below as the underlying manual flow and for `/init-android` clean-slate follow-up.
+
 ```
 Daily Progress:
+- [ ] Clean slate + fresh emulator (required on /init-android)
 - [ ] Terminal 1: yarn build --watch
 - [ ] Terminal 2: Metro in fixture
-- [ ] Emulator running (or USB device)
 - [ ] Terminal 3: run Android app
 ```
 
@@ -105,7 +130,13 @@ yarn ra   # alias: yarn fixture:rn:android
 
 CONTRIBUTING mentions `yarn run-android`; the root script is **`yarn ra`** (not `run-android`).
 
-Start emulator (if not already running):
+Fresh emulator (default for `/init-android`; also use after a bad session):
+
+```bash
+.cursor/skills/init-android/scripts/clean-slate-and-boot-emulator.sh
+```
+
+Manual boot only when you intentionally want to keep existing Metro/emulator processes:
 
 ```bash
 emulator -avd React-Native-Phone -no-snapshot-load
