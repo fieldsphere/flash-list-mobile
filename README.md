@@ -1,6 +1,6 @@
-# FlashList Skills Demo
+# FlashList Demo
 
-This repo is set up as a demo for Cursor skills around a real React Native codebase. The underlying project is FlashList, but the main thing to try here is the skill-driven workflow in `.cursor/skills`.
+This repo is set up as a demo for Cursor around a real mobile app codebase. The underlying project is FlashList, but the main thing to try here is the skill-driven workflow in `.cursor/skills`.
 
 Skill definitions live under `.cursor/skills`. Use the demo flow below to set up the fixture app, start the simulator or emulator stack, and validate the running UI.
 
@@ -17,21 +17,21 @@ flowchart TD
 
   choose -->|iOS| init_ios["/init-ios"]
   init_ios --> start_ios["/start-ios-simulator"]
-  start_ios --> validate_ios["ios-simulator-validation-loop"]
+  start_ios --> validate_ios["control-ios-simulator"]
 
   choose -->|Android| init_android["/init-android"]
   init_android --> start_android["/start-android-emulator"]
-  start_android --> validate_android["android-emulator"]
+  start_android --> validate_android["control-android-emulator"]
 
   validate_ios --> done([Inspect and verify fixture UI])
   validate_android --> done
 ```
 
-**iOS:** `/init-ios` → `/start-ios-simulator` → `ios-simulator-validation-loop`
+**iOS:** `/init-ios` → `/start-ios-simulator` → `control-ios-simulator`
 
-**Android:** `/init-android` → `/start-android-emulator` → `android-emulator`
+**Android:** `/init-android` → `/start-android-emulator` → `control-android-emulator`
 
-On Android, use `android-emulator` for the same validation pass as on iOS: snapshots, screenshots, taps, and proof that the UI changed.
+On Android, use `control-android-emulator` for the same validation pass as on iOS: snapshots, screenshots, taps, and proof that the UI changed.
 
 ## Normal Repo Commands
 

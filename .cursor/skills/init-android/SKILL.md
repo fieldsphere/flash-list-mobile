@@ -148,7 +148,7 @@ adb shell getprop sys.boot_completed   # expect 1
 
 ## Pitfalls
 
-- Emulator UI validation for agents uses **agent-device** via `.cursor/skills/android-emulator/` — install globally with `npm install -g agent-device@latest`; when multiple devices are connected, set `ANDROID_SERIAL` (see `adb devices`) before snapshot/screenshot/log commands
+- Emulator UI validation for agents uses **agent-device** via `.cursor/skills/control-android-emulator/` — install globally with `npm install -g agent-device@latest`; when multiple devices are connected, set `ANDROID_SERIAL` (see `adb devices`) before snapshot/screenshot/log commands
 - `dist/` is **not** rebuilt on branch switch — run `yarn build` after checkout
 - Fixture consumes compiled `dist/` — TS changes need build/watch
 - **No `estimatedItemSize`** on FlashList (prop does not exist in this codebase)

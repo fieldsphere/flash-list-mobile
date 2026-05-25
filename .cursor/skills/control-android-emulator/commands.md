@@ -80,7 +80,7 @@ agent-device screenshot ".tmp/agent-device/refs.png" --max-size 1200 --overlay-r
 Or use the helper:
 
 ```bash
-OVERLAY_REFS=1 .cursor/skills/android-emulator/scripts/capture-screen.sh refs
+OVERLAY_REFS=1 .cursor/skills/control-android-emulator/scripts/capture-screen.sh refs
 ```
 
 ## Per-Session Logs

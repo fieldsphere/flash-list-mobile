@@ -1,10 +1,10 @@
 ---
-name: android-emulator
-description: Use when validating FlashList fixture behavior, checking emulator or device UI state, capturing visual proof, or debugging Android screen interactions after the app is runnable by package name.
+name: control-android-emulator
+description: Use when validating FlashList fixture behavior, checking emulator or device UI state, capturing visual proof, or debugging Android screen interactions after the app is runnable by package name. Use for /control-android-emulator.
 manual-invocation: true
 ---
 
-# Android Emulator
+# Control Android Emulator
 
 Use this skill to inspect an Android emulator or device app through accessibility text and visual screenshots. It assumes the app is already installed or runnable by package name, Metro is running when the app needs a JS bundle, and `adb` sees a booted emulator or connected device. Use [start-android-emulator](../start-android-emulator/SKILL.md) first for boot, Metro, TypeScript watch, or `run-android` concerns.
 
@@ -42,13 +42,13 @@ export ANDROID_SERIAL="emulator-5554"
 Prepare the session from repo root (source in the same shell used for later commands):
 
 ```bash
-source .cursor/skills/android-emulator/scripts/setup-session.sh
+source .cursor/skills/control-android-emulator/scripts/setup-session.sh
 ```
 
 Open the app:
 
 ```bash
-.cursor/skills/android-emulator/scripts/open-app.sh
+.cursor/skills/control-android-emulator/scripts/open-app.sh
 ```
 
 Optionally start per-session app logs before reproducing:
@@ -61,7 +61,7 @@ agent-device logs mark "before validation"
 Capture current text and screenshot:
 
 ```bash
-.cursor/skills/android-emulator/scripts/capture-screen.sh screen
+.cursor/skills/control-android-emulator/scripts/capture-screen.sh screen
 ```
 
 Immediately read `.tmp/agent-device/screen.png` with the image-capable file reader before judging visual state. The file path alone is not evidence.
@@ -71,7 +71,7 @@ Act through refs from the latest `agent-device snapshot -i`, then re-capture:
 ```bash
 agent-device press @e1
 agent-device fill @e2 "text"
-.cursor/skills/android-emulator/scripts/capture-screen.sh after
+.cursor/skills/control-android-emulator/scripts/capture-screen.sh after
 ```
 
 Read `.tmp/agent-device/after.png` before deciding whether the action worked.

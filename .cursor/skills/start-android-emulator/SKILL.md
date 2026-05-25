@@ -32,7 +32,7 @@ Check what is already running; **do not duplicate** healthy processes.
 | Emulator/device | `adb devices` shows exactly one `device`, or set `ANDROID_SERIAL` |
 | App | `adb shell pidof com.flatlistpro`; `agent-device snapshot` shows `com.flatlistpro` |
 
-If Metro is up but the app is stale or timed out, only re-run **Step 4** (run-android) or reload the app with [android-emulator](../android-emulator/SKILL.md).
+If Metro is up but the app is stale or timed out, only re-run **Step 4** (run-android) or reload the app with [control-android-emulator](../control-android-emulator/SKILL.md).
 
 ## Start Workflow
 
@@ -103,13 +103,13 @@ fi
 yarn react-native run-android --no-packager --active-arch-only "${device_args[@]}"
 ```
 
-Verify: `adb shell pidof com.flatlistpro` returns a pid, then use [android-emulator](../android-emulator/SKILL.md) for snapshot/screenshot/log validation.
+Verify: `adb shell pidof com.flatlistpro` returns a pid, then use [control-android-emulator](../control-android-emulator/SKILL.md) for snapshot/screenshot/log validation.
 
 **Do NOT use `yarn ra` / `yarn fixture:rn:android` for this workflow** -- those scripts do not pass `--no-packager --active-arch-only` and chain `yarn build --watch` after run-android.
 
 ## Report To User
 
-Summarize what was already running vs newly started, Metro URL (`http://localhost:8081`), selected Android serial, app id `com.flatlistpro`, and where validation proof was captured if you ran [android-emulator](../android-emulator/SKILL.md).
+Summarize what was already running vs newly started, Metro URL (`http://localhost:8081`), selected Android serial, app id `com.flatlistpro`, and where validation proof was captured if you ran [control-android-emulator](../control-android-emulator/SKILL.md).
 
 ## Pitfalls
 
@@ -123,4 +123,4 @@ Summarize what was already running vs newly started, Metro URL (`http://localhos
 
 ## Optional Reload
 
-App connected but blank/redbox after Metro starts: use [android-emulator](../android-emulator/SKILL.md) to capture refs and press `RELOAD`, or re-run Step 4.
+App connected but blank/redbox after Metro starts: use [control-android-emulator](../control-android-emulator/SKILL.md) to capture refs and press `RELOAD`, or re-run Step 4.

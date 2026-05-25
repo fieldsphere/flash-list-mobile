@@ -71,9 +71,9 @@ Read the matching `SKILL.md` when the task fits.
 | `init-android` | First-time macOS Android setup (`/init-android`) |
 | `start-ios-simulator` | Start TS watch, Metro, fixture on simulator |
 | `start-android-emulator` | Start TS watch, Metro, fixture on emulator |
-| `ios-simulator` | Validate fixture UI on iOS after app is installed |
+| `control-ios-simulator` | Validate fixture UI on iOS after app is installed |
 | `ios-simulator-validation-loop` | Observe–act–verify loop on iOS (snapshots, screenshots) |
-| `android-emulator` | Validate fixture UI on Android after app is installed |
+| `control-android-emulator` | Validate fixture UI on Android after app is installed |
 
 ## Self-learning
 
@@ -81,7 +81,7 @@ Capture pitfalls, debugging wins, and non-obvious FlashList/RN behavior in the r
 
 - Bugs → `fix-github-issue` (Common Pitfalls)
 - Testing → `review-and-test` (Edge Cases)
-- Devices → `agent-device` or `.cursor/skills/*-simulator*` / `android-emulator`
+- Devices → `agent-device` or `.cursor/skills/control-*-simulator*` / `control-android-emulator`
 - Repo-wide → this file (`AGENTS.md`)
 - CI feedback batches → `analyze-feedback`
 

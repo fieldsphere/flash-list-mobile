@@ -13,7 +13,7 @@ One-time and daily workflows for flash-list iOS development on macOS. Fork conte
 - [ ] macOS with Xcode and iOS Simulator (`xcode-select -p`, `xcodebuild -version`)
 - [ ] nvm (or equivalent) for Node **22.18.0** (CI/project standard)
 - [ ] Homebrew if system Ruby is 2.6.x (need Ruby 3.3 for Bundler/CocoaPods)
-- [ ] `agent-device` CLI (for [ios-simulator](../ios-simulator/SKILL.md))
+- [ ] `agent-device` CLI (for [control-ios-simulator](../control-ios-simulator/SKILL.md))
 
 ## Version fixes (common blockers)
 
@@ -56,7 +56,7 @@ npm install -g agent-device@latest
 
 `yarn up` runs: root `yarn`, fixture deps + `pod install`, `applesimutils` (Detox e2e), `yarn build`.
 
-`agent-device` is the snapshot/screenshot CLI used by the `ios-simulator` skill to inspect and drive the running simulator. Verify with `which agent-device`.
+`agent-device` is the snapshot/screenshot CLI used by the `control-ios-simulator` skill to inspect and drive the running simulator. Verify with `which agent-device`.
 
 ## Daily dev workflow
 
