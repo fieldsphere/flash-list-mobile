@@ -1,6 +1,6 @@
 ---
 name: analyze-feedback
-description: Analyze agent feedback artifacts from GitHub Actions workflow runs, extract actionable learnings, and incorporate them into skill files and CLAUDE.md. Tracks scan progress to avoid re-processing.
+description: Analyze agent feedback artifacts from GitHub Actions workflow runs, extract actionable learnings, and incorporate them into skill files and AGENTS.md. Tracks scan progress to avoid re-processing.
 ---
 
 # Analyze Agent Feedback
@@ -93,7 +93,7 @@ For each actionable insight, update the appropriate file:
 | Device interaction quirks | `.claude/skills/agent-device/SKILL.md` |
 | Triage patterns | `.claude/skills/triage-issue/SKILL.md` |
 | PR/commit issues | `.claude/skills/raise-pr/SKILL.md` |
-| Project-wide facts | `CLAUDE.md` |
+| Project-wide facts | `AGENTS.md` |
 | Workflow/CI issues | Note for human review (do not modify workflow files) |
 
 **Format:** Add each new pitfall/learning as a single concise bullet point in the appropriate section. Include enough context to be useful but keep it to 1-2 lines.
@@ -101,7 +101,7 @@ For each actionable insight, update the appropriate file:
 **Do NOT modify:**
 - Workflow YAML files (`.github/workflows/*`) — flag these for human review instead
 - Settings files (`.claude/settings.json`)
-- Any file outside the `.claude/` directory and `CLAUDE.md`
+- Any file outside the `.claude/` directory and `AGENTS.md`
 
 ### Step 6 — Update cursor
 
