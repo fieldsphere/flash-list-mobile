@@ -86,3 +86,12 @@ Capture pitfalls, debugging wins, and non-obvious FlashList/RN behavior in the r
 - CI feedback batches → `analyze-feedback`
 
 Same PR as the fix; one line per pitfall. On CI, only critical repeat-failure learnings.
+
+## Cursor Cloud specific instructions
+
+This is a pure TypeScript library — no databases, Docker, or external services required. The update script runs `yarn install --frozen-lockfile && yarn build` on startup.
+
+- **Verify commands**: `yarn test --forceExit`, `yarn type-check`, `yarn lint` (see "Build & test" above).
+- **No iOS/Android simulators** in Cloud Agent VMs — skip device skills (`init-ios`, `init-android`, `start-ios-simulator`, etc.). Test coverage relies on the Jest suite.
+- `yarn test` requires `--forceExit` due to open async handles in the test environment.
+- The fixture app (`fixture/react-native/`) depends on compiled output in `dist/`; always run `yarn build` before testing fixture-related changes.
