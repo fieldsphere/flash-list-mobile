@@ -1,10 +1,10 @@
 ---
-name: init-ios-setup
-description: Initializes flash-list for iOS development on macOS—Node 22, Yarn Classic, Ruby 3.3, bundle install, yarn up, CocoaPods, Metro, and simulator. Use when setting up the repo, onboarding, init iOS, first-time dev environment, or /init-ios-setup.
+name: init-ios
+description: Initializes flash-list for iOS development on macOS—Node 22, Yarn Classic, Ruby 3.3, bundle install, yarn up, CocoaPods, Metro, and simulator. Use when setting up the repo, onboarding, init iOS, first-time dev environment, or /init-ios.
 disable-model-invocation: true
 ---
 
-# Init iOS Setup
+# Init iOS
 
 One-time and daily workflows for flash-list iOS development on macOS. Fork context: `fieldsphere/flash-list-mobile` (from Shopify/flash-list); git remote name `fieldsphere`.
 
@@ -13,6 +13,7 @@ One-time and daily workflows for flash-list iOS development on macOS. Fork conte
 - [ ] macOS with Xcode and iOS Simulator (`xcode-select -p`, `xcodebuild -version`)
 - [ ] nvm (or equivalent) for Node **22.18.0** (CI/project standard)
 - [ ] Homebrew if system Ruby is 2.6.x (need Ruby 3.3 for Bundler/CocoaPods)
+- [ ] `agent-device` CLI (for [ios-simulator-validation-loop](../ios-simulator-validation-loop/SKILL.md))
 
 ## Version fixes (common blockers)
 
@@ -39,6 +40,7 @@ Init Progress:
 - [ ] Ruby 3.3 on PATH (if needed)
 - [ ] bundle install
 - [ ] yarn up
+- [ ] agent-device installed globally
 ```
 
 Commands:
@@ -49,9 +51,12 @@ npm install -g yarn@1.22.22
 export PATH="/opt/homebrew/opt/ruby@3.3/bin:/opt/homebrew/lib/ruby/gems/3.3.0/bin:$PATH"  # if needed
 bundle install
 yarn up
+npm install -g agent-device@latest
 ```
 
 `yarn up` runs: root `yarn`, fixture deps + `pod install`, `applesimutils` (Detox e2e), `yarn build`.
+
+`agent-device` is the snapshot/screenshot CLI used by the `ios-simulator-validation-loop` skill to inspect and drive the running simulator. Verify with `which agent-device`.
 
 ## Daily dev workflow
 

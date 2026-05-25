@@ -1,6 +1,6 @@
 ---
 name: start-ios-simulator
-description: Starts flash-list iOS dev stack on macOS—TypeScript watch, Metro (8081), and fixture app on the iOS Simulator. Use when the user asks to run the simulator, start iOS dev, spin up Metro, or /start-ios-simulator. Requires init-ios-setup first on a fresh machine.
+description: Starts flash-list iOS dev stack on macOS—TypeScript watch, Metro (8081), and fixture app on the iOS Simulator. Use when the user asks to run the simulator, start iOS dev, spin up Metro, or /start-ios-simulator. Requires init-ios first on a fresh machine.
 disable-model-invocation: true
 ---
 
@@ -8,7 +8,7 @@ disable-model-invocation: true
 
 Spin up the three-process iOS dev stack for `fieldsphere/flash-list-mobile` (fixture: **FlatListPro**). Run from repo root unless noted.
 
-**Prerequisite:** One-time env via [init-ios-setup](../init-ios-setup/SKILL.md) (`yarn up`, Node 22.18.0, Yarn Classic, Ruby 3.3).
+**Prerequisite:** One-time env via [init-ios](../init-ios/SKILL.md) (`yarn up`, Node 22.18.0, Yarn Classic, Ruby 3.3).
 
 ## Environment (every session)
 
