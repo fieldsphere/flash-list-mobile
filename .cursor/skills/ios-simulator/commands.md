@@ -74,3 +74,26 @@ Or use the helper:
 ```bash
 OVERLAY_REFS=1 .cursor/skills/ios-simulator/scripts/capture-screen.sh refs
 ```
+
+## Per-Session Logs
+
+Use app logs when visual state is not enough to explain a repro. Keep the flow
+short: start logs, mark the action, reproduce, stop logs, then capture the log
+path.
+
+```bash
+agent-device logs start
+agent-device logs mark "before repro"
+# reproduce with snapshot/press/fill/capture commands
+agent-device logs mark "after repro"
+agent-device logs stop
+agent-device logs path
+```
+
+If logs may contain stale noise from an earlier run, clear and restart them
+before reproducing:
+
+```bash
+agent-device logs clear --restart
+agent-device logs mark "before repro"
+```
