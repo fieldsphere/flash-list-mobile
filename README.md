@@ -1,3 +1,79 @@
+# FlashList Skills Demo
+
+This repo is set up as a demo for Cursor skills around a real React Native codebase. The underlying project is FlashList, but the main thing to try here is the skill-driven workflow in `.cursor/skills`.
+
+Ask Cursor to run one of the skills below when you want to set up the fixture app, start the simulator stack, or validate the running UI.
+
+## Try The Skills
+
+### `/init-ios`
+
+Use `.cursor/skills/init-ios` for first-time iOS setup on macOS. It walks through Node 22.18.0, Yarn Classic, Ruby 3.3, Bundler, `yarn up`, CocoaPods, and installing `agent-device`.
+
+### `/start-ios-simulator`
+
+Use `.cursor/skills/start-ios-simulator` after iOS setup is complete. It starts the three-process dev stack: TypeScript watch, Metro in `fixture/react-native`, and the fixture app in the iOS Simulator.
+
+### `ios-simulator-validation-loop`
+
+Use `.cursor/skills/ios-simulator-validation-loop` once the app is installed or runnable. It runs an observe-act-verify loop: accessibility snapshots, screenshots, optional logs, interaction refs, then proof after each action.
+
+There is also `.cursor/skills/ios-simulator` with the same validation workflow; prefer **`ios-simulator-validation-loop`** in the demo flow below so the skill name matches what you are doing.
+
+### `/init-android`
+
+Use `.cursor/skills/init-android` for first-time Android setup on macOS. It covers Node 22.18.0, Yarn Classic, `ANDROID_HOME`, JDK 17, SDK packages, the `React-Native-Phone` AVD, and `yarn up`.
+
+### `/start-android-emulator`
+
+Use `.cursor/skills/start-android-emulator` after Android setup is complete. It starts the three-process dev stack: TypeScript watch, Metro in `fixture/react-native`, a fresh emulator boot, and `run-android` for the fixture app.
+
+### `android-emulator`
+
+Use `.cursor/skills/android-emulator` once the Android fixture is installed or runnable. It mirrors the iOS validation flow for Android devices and emulators with `agent-device`, screenshots, logs, and `ANDROID_SERIAL` guidance.
+
+## Suggested Demo Flow
+
+Pick iOS or Android, run the setup skills for that platform, then use the matching validation skill once the fixture app is running.
+
+```mermaid
+flowchart TD
+  start([Open repo in Cursor])
+  choose{iOS or Android?}
+
+  start --> choose
+
+  choose -->|iOS| init_ios["/init-ios"]
+  init_ios --> start_ios["/start-ios-simulator"]
+  start_ios --> validate_ios["ios-simulator-validation-loop"]
+
+  choose -->|Android| init_android["/init-android"]
+  init_android --> start_android["/start-android-emulator"]
+  start_android --> validate_android["android-emulator"]
+
+  validate_ios --> done([Inspect and verify fixture UI])
+  validate_android --> done
+```
+
+**iOS:** `/init-ios` → `/start-ios-simulator` → `ios-simulator-validation-loop`
+
+**Android:** `/init-android` → `/start-android-emulator` → `android-emulator`
+
+On Android, use `android-emulator` for the same validation pass as on iOS: snapshots, screenshots, taps, and proof that the UI changed.
+
+## Normal Repo Commands
+
+```bash
+yarn build
+yarn test --forceExit
+yarn type-check
+yarn lint
+```
+
+Run `yarn build` after checking out another branch because the fixture consumes compiled output from `dist/`.
+
+## Background: Original FlashList README
+
 ![FlashList Image](./FlashList.png)
 
 <div align="center">
