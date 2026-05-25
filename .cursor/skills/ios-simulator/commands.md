@@ -72,5 +72,5 @@ agent-device screenshot ".tmp/agent-device/refs.png" --max-size 1200 --overlay-r
 Or use the helper:
 
 ```bash
-OVERLAY_REFS=1 .cursor/skills/ios-simulator-validation-loop/scripts/capture-screen.sh refs
+OVERLAY_REFS=1 .cursor/skills/ios-simulator/scripts/capture-screen.sh refs
 ```
