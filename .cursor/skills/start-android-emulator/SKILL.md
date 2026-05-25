@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Start Android Emulator
 
-Spin up the three-process Android dev stack for `fieldsphere/flash-list-mobile` (fixture: **FlatListPro**, package `com.flatlistpro`). Run from repo root unless noted.
+Spin up the three-process Android dev stack for the FlashList fixture (**FlatListPro**, package `com.flatlistpro`). Run from repo root unless noted.
 
 **Prerequisite:** One-time env via [init-android](../init-android/SKILL.md) (`yarn up`, Node 22.18.0, Yarn Classic, JDK 17, Android SDK, `React-Native-Phone` AVD).
 

@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Init iOS
 
-One-time and daily workflows for flash-list iOS development on macOS. Fork context: `fieldsphere/flash-list-mobile` (from Shopify/flash-list); git remote name `fieldsphere`.
+One-time and daily workflows for flash-list iOS development on macOS. Repository: [Shopify/flash-list](https://github.com/Shopify/flash-list).
 
 ## Prerequisites checklist
 

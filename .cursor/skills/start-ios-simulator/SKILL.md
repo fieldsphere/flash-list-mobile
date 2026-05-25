@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # Start iOS Simulator
 
-Spin up the three-process iOS dev stack for `fieldsphere/flash-list-mobile` (fixture: **FlatListPro**). Run from repo root unless noted.
+Spin up the three-process iOS dev stack for the FlashList fixture (**FlatListPro**). Run from repo root unless noted.
 
 **Prerequisite:** One-time env via [init-ios](../init-ios/SKILL.md) (`yarn up`, Node 22.18.0, Yarn Classic, Ruby 3.3).
 
