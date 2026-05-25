@@ -6,7 +6,7 @@ manual-invocation: true
 
 # Android Emulator
 
-Use this skill to inspect an Android emulator or device app through accessibility text and visual screenshots. It assumes the app is already installed or runnable by package name and that `adb` sees a booted emulator or connected device; use a future `start-android-emulator` skill for boot, Metro, or build concerns.
+Use this skill to inspect an Android emulator or device app through accessibility text and visual screenshots. It assumes the app is already installed or runnable by package name, Metro is running when the app needs a JS bundle, and `adb` sees a booted emulator or connected device. Use [start-android-emulator](../start-android-emulator/SKILL.md) first for boot, Metro, TypeScript watch, or `run-android` concerns.
 
 ## Core Loop
 
@@ -87,10 +87,11 @@ agent-device logs path
 ## Guidance
 
 - Prefer `snapshot -i` for labels, buttons, text values, and stable interaction refs.
+- If screenshots show a blank screen or a React Native RedBox saying "Unable to load script", switch to [start-android-emulator](../start-android-emulator/SKILL.md) to start Metro on 8081, then reload and re-capture.
 - Use screenshots for layout, visual regressions, blank screens, clipping, loading states, and proof.
 - Use per-session logs only when diagnosing app/runtime behavior around a repro. Mark before and after the action so the useful log window is easy to find.
 - Re-snapshot after each navigation, modal, keyboard change, or scroll before using refs again.
 - Capture proof at the end: the final `snapshot -i` output plus a screenshot PNG that has been read visually.
 - Set `ANDROID_SERIAL` when multiple Android targets are connected; `setup-session.sh` fails fast in that case without it.
-- Do not add build, install, or emulator-boot workflow to this skill.
+- Keep build, install, Metro, and emulator-boot workflow in [start-android-emulator](../start-android-emulator/SKILL.md); this skill is for observe-act-verify once the app is runnable.
 - For direct commands, serial targeting, activity override, relaunch, and overlay refs, see [commands.md](commands.md).

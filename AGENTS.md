@@ -70,6 +70,7 @@ Read the matching `SKILL.md` when the task fits.
 | `init-ios` | First-time macOS iOS setup (`/init-ios`) |
 | `init-android` | First-time macOS Android setup (`/init-android`) |
 | `start-ios-simulator` | Start TS watch, Metro, fixture on simulator |
+| `start-android-emulator` | Start TS watch, Metro, fixture on emulator |
 | `ios-simulator` | Validate fixture UI on iOS after app is installed |
 | `ios-simulator-validation-loop` | Observe–act–verify loop on iOS (snapshots, screenshots) |
 | `android-emulator` | Validate fixture UI on Android after app is installed |
