@@ -86,3 +86,10 @@ Capture pitfalls, debugging wins, and non-obvious FlashList/RN behavior in the r
 - CI feedback batches → `analyze-feedback`
 
 Same PR as the fix; one line per pitfall. On CI, only critical repeat-failure learnings.
+
+## Cursor Cloud specific instructions
+
+- The VM update script runs `yarn install --frozen-lockfile` and `yarn build` on startup. Dependencies and `dist/` are ready when you begin.
+- iOS/Android simulators are **not available** in the Cloud VM. Test coverage is limited to `yarn test --forceExit`, `yarn lint`, and `yarn type-check`.
+- Jest requires `--forceExit` to avoid hanging on open handles.
+- The fixture app (`fixture/react-native/`) links to the root library via `"@shopify/flash-list": "link:../../"`, so `yarn build` must complete before the fixture can resolve the library.
