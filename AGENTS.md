@@ -86,3 +86,14 @@ Capture pitfalls, debugging wins, and non-obvious FlashList/RN behavior in the r
 - CI feedback batches → `analyze-feedback`
 
 Same PR as the fix; one line per pitfall. On CI, only critical repeat-failure learnings.
+
+## Cursor Cloud specific instructions
+
+Cloud agents run on Linux without iOS/Android simulators or emulators. The update script runs `yarn install` and `yarn build` automatically on startup, so dependencies and `dist/` are ready.
+
+**Available commands** (see "Build & test" above): `yarn build`, `yarn test --forceExit`, `yarn type-check`, `yarn lint`.
+
+**Gotchas:**
+- `yarn test` hangs without `--forceExit`; always include the flag.
+- The fixture app (`fixture/react-native/`) requires a native toolchain (Xcode/Android SDK) and cannot be run in Cloud Agent VMs. Limit testing to unit tests, type-check, and lint.
+- `dist/` is not rebuilt on branch switch. Always run `yarn build` after checkout.
